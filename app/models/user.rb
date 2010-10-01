@@ -1,13 +1,16 @@
-
-# Schema version: 20100822152326
+# == Schema Information
+# Schema version: 20100930052638
 #
 # Table name: users
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id                 :integer         not null, primary key
+#  name               :string(255)
+#  email              :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  encrypted_password :string(255)
+#  salt               :string(255)
+#  admin              :boolean
 #
 
 require 'digest'
@@ -29,6 +32,12 @@ class User < ActiveRecord::Base
                        :length       => { :within => 6..40 }
                       
   before_save :encrypt_password
+  
+  has_many :microposts, :dependent => :destroy
+  
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
   
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)

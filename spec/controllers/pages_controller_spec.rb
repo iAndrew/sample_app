@@ -13,6 +13,7 @@ describe PagesController do
       get 'home'
       response.should have_selector("title", :content => " | Home")
     end
+    
   end
 
   describe "GET 'contact'" do

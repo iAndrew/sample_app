@@ -115,6 +115,33 @@ describe UsersController do
       response.should have_selector("span.content", :content => mp1.content)
       response.should have_selector("span.content", :content => mp2.content)
     end
+    
+    it "should paginate microposts" do
+      50.times do
+        Factory(:micropost, :user => @user, :content => "same content")
+      end
+      get :show, :id => @user
+      response.should have_selector("div.pagination")
+      response.should have_selector("span.disabled", :content => "Previous")
+      response.should have_selector("a", :href => user_path(@user)+"?page=2", :content => "2")
+      response.should have_selector("a", :href => user_path(@user)+"?page=2", :content => "Next")
+    end
+    
+    it "should display delete link if post has been created by myself" do
+      test_sign_in(@user)
+      mp = Factory(:micropost, :user => @user, :content => "Test post")
+      get :show, :id => @user
+      response.should have_selector("a", :href => micropost_path(mp), :content => "delete")
+    end
+    
+    it "shouldn't display detele link, if i'm not an author of the post" do
+      another_user = Factory(:user, :email => "another@one.com")
+      mp = Factory(:micropost, :user => another_user, :content => "Not your business")
+      test_sign_in(@user)
+      get :show, :id => another_user
+      response.should_not have_selector("a", :href => micropost_path(mp), :content => "delete")
+    end
+    
   end
 
   describe "POST 'create'" do

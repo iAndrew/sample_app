@@ -6,10 +6,6 @@ describe Micropost do
     @attr = { :content => "value for content" }
   end
   
-  it "should create a new instance given valid attributes" do
-    Micropost.create!(@attr)
-  end
-  
   describe "user association" do
     before(:each) do
       @micropost = @user.microposts.create(@attr)

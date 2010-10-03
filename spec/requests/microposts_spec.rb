@@ -1,12 +1,10 @@
 require 'spec_helper'
+include ActionView::Helpers::TextHelper
 
 describe "Microposts" do
   before(:each) do
-    user = Factory(:user)
-    visit signin_path
-    fill_in :email, :with => user.email
-    fill_in :password, :with => user.password
-    click_button
+    @user = Factory(:user)
+    integration_sign_in @user
   end
   
   describe "creation" do
@@ -23,13 +21,18 @@ describe "Microposts" do
     end
     
     describe "success" do
+      before(:each) do
+        @content = "Lorem ipsum dolor sit amet"
+      end
+      
       it "should make a new micropost" do
-        content = "Lorem ipsum dolor sit amet"
         lambda do
           visit root_path
-          fill_in :micropost_content, :with => content
+          fill_in :micropost_content, :with => @content
           click_button
-          response.should have_selector("span.content", :content => content)
+          response.should have_selector("span.content", :content => @content)
+          amount = @user.microposts.count
+          response.should have_selector("span", :class => "microposts", :content => pluralize(amount, "microposts"))
         end.should change(Micropost, :count).by(1)
       end
     end

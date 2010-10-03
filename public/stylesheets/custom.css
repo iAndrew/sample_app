@@ -247,3 +247,9 @@ form.new_micropost textarea {
   height: 4em;
   margin-bottom: 0;
 }
+
+form.new_micropost input {
+	text-align: right
+	display: inline-block;
+	z-index: auto;
+}

@@ -10,14 +10,14 @@ gem 'gravatar_image_tag'
 gem 'will_paginate', "3.0.pre2"
   
 group :development do
-  gem 'rspec-rails', :git => "git://github.com/rspec/rspec-rails.git"
+  gem 'rspec-rails', '2.0.0'
   gem 'annotate-models'
 	gem 'webrat'
 	gem 'faker', '0.3.1'
 end
 
 group :test do
-	gem 'rspec-rails', :git => "git://github.com/rspec/rspec-rails.git"
+	gem 'rspec-rails', '2.0.0'
   gem 'factory_girl_rails', '1.0'
 	gem 'spork', '0.9.0.rc2'
 	gem 'webrat'

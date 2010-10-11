@@ -7,29 +7,28 @@ $(document).ready(function() {
         $(this).keyup(function() {
             check($(this));
         });
-
-        function check(mp) {
-            var limit = parseInt(mp.attr('maxlength'), 10) || 0;
-            counter = mp.parent().parent().find('.actions #counter');
-
-
-            var length = mp.val().length;
-            if (length >= limit) {
-                mp.val(mp.val().substring(0, limit))
-                length = limit;
-            };
-
-            submit_button = mp.parent().parent().find('.actions #micropost_submit');
-
-            if (length == 0) {
-                submit_button.attr('disabled', 'disabled')
-            }
-            else {
-                submit_button.removeAttr('disabled')
-            };
-
-            counter.html(limit - length);
-        }
     });
 });
 
+function check(mp) {
+    var limit = parseInt(mp.attr('maxlength'), 10) || 0;
+    counter = $('.actions #counter');
+
+
+    var length = mp.val().length;
+    if (length >= limit) {
+        mp.val(mp.val().substring(0, limit))
+        length = limit;
+    };
+
+    submit_button = $('.actions #micropost_submit');
+
+    if (length == 0) {
+        submit_button.attr('disabled', 'disabled')
+    }
+    else {
+        submit_button.removeAttr('disabled')
+    };
+
+    counter.html(limit - length);
+}
